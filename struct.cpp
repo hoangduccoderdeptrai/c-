@@ -133,8 +133,10 @@ int main(){
            sapxep_ten(a,n);
 
         }else if(chose==3){
+            cout<<"toi chua thuc hien"<<endl;
             
         }else if(chose==4){
+            cout<<"toi chua thuc hien"<<endl;
             
         }else if(chose==5){
             
