@@ -1,2 +1,2 @@
 #pragma once
-void nhap(int*,int);
+// thuong em la dieu anh khong the ngo
