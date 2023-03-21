@@ -1,151 +1,108 @@
 #include<iostream>
+#include "class.h"
+#include<string.h>
 #include<string>
-#include<vector>
-#include<algorithm>
-#include<math.h>
-
 using namespace std;
-bool cmp(pair<float,int>a,pair<float,int>b){
-
-    return a.second>b.second;
-}
-bool cmp2(pair<float,int>a,pair<float,int>b){
-
-    return a.second<b.second;
+void Point::Nhap(){
+    cin>>x>>y;
 }
 
-struct DonThuc{
-    float heso;
-    int somu;
-    
-};
-struct Dathuc
-{
-    DonThuc a[50];
-    void nhap(DonThuc a[],int n);
-    void xuat(DonThuc a[],int n);
-    
-    void sepxep(DonThuc a[],int n);
-    friend float cout_valuse(DonThuc a[],int n);
-    friend void cong(Dathuc a,int n1,Dathuc b,int n2);
-};
-
-void Dathuc::sepxep(DonThuc a[],int n){
-    vector<pair<float,int>>vt;
-    for(int i=0;i<n;i++){
-        vt.push_back(make_pair(a[i].heso,a[i].somu));
-
-    }
-    sort(vt.begin(),vt.end(),cmp);
-    for(int i=0;i<n;i++){
-        // cout<<vt[i].first<<vt[i].second<<endl;
-        cout<<vt[i].first<<"X^"<<vt[i].second;
-        if(i<n-1 && vt[i+1].first>0){
-            cout<<" + ";
-        }
-
-
-    }
-
-    
-
-}
-
-void Dathuc::xuat(DonThuc a[],int n){
-    for(int i=0;i<n;i++){
-        
-        cout<<a[i].heso <<"x^"<<a[i].somu;
-        if(i<n-1 && a[i+1].heso>0)cout<<" + ";
-   
-        
-    }
-    
-}
-void Dathuc::nhap(DonThuc a[],int n ){
-    for(int i=0;i<n;i++){
-        cout<<"nhap heso:";
-        cin>>a[i].heso;
-        cout<<"nhap so mu x^:";
-        cin>>a[i].somu;
-       
-
+void tuGiac::Nhap(){
+    char ch[]={"ABCD"};
+    for(int i=0;i<4;i++){
+        cout<<"nhap toa do oxy cua diem: "<<ch[i]<<endl;
+        d[i].Nhap();
     }
 }
-float cout_valuse(DonThuc a[],int n){
-    int x;
-    float tong =0;
-    cout<<"nhap gia tri x de tinh gia tri bieu thuc:";
-    cin>>x;
-    for(int i=0;i<n;i++){
-        tong+=a[i].heso*pow(x,a[i].somu);
-    }
-    return tong;
+
+float distance(Point a,Point b){
+    float distan =0;
+    distan =sqrt(pow(float(a.get_x())-float(b.get_x()),2)+pow(float(a.get_Y())-float(b.get_Y()),2));
+    return distan;
+}
+bool tuGiac::Check(){
+    float AB =distance(d[0],d[1]);
+    float AD =distance(d[0],d[3]);
+    float CD =distance(d[2],d[3]);
+    float BC=distance(d[2],d[1]);
+    float AC =distance(d[0],d[2]);
+    float BD =distance(d[1],d[3]);
+    if(AB==0||AD==0||CD==0||BC==0||AC==0||BD==0)return false;
+    if(AB+BC==AC||AC+BC==AB||AC+AB==BC)return false;
+    if(BD+CD==BC||BC+CD==BD||BD+BC==CD)return false;
+    if (AD+AC==CD||CD+AC==AD||AD+CD==AC)return false;
+    if(AD+AB==BD||AD+BD==AB||BD+AB==AD)return false;
+    return true;
+  
 
 }
-void cong(Dathuc a,int n1,Dathuc b,int n2){
-    float k;
-    vector<pair<float,int>>p1;
-    vector<pair<float,int>>p2;
-    vector<pair<float,int>>total;
-    for(int i=0;i<n1;i++){
-        p1.push_back(make_pair(a.a[i].heso,a.a[i].somu));
-       
+void hingthang::Nhap(){
+    tuGiac::Nhap();
+}
+bool hingthang::Check(){
+    // thiếu trường hợp mới chỉ xét là cùng tọa độ còn truoengf hợp khác tọa độ mà ss với nhau
+    bool dem=false;
+    int a,b;
+    if(tuGiac::d[0].get_x()==tuGiac::d[1].get_x()){
+        if(tuGiac::d[2].get_x()==tuGiac::d[3].get_x())dem=true;
     }
-    for(int i=0;i<n2;i++){
-        p2.push_back(make_pair(b.a[i].heso,b.a[i].somu));
-    }
-    sort(p1.begin(),p1.end(),cmp2);
-    sort(p2.begin(),p2.end(),cmp2);
-   
-    int i=0,j=0;
-    while(i<n1 && j<n2){
-        if(p1[i].second==p2[j].second){
-            k =p1[i].first+p2[j].first;
-            total.push_back(make_pair(k,p2[i].second));
-            i++;
-            j++;
-        }else{
-            // k = (p1[i].second>p2[j].second)?(p2[j].first):(p1[i].first);
-            if(p1[i].second>p2[j].second){
-                total.push_back(make_pair(p2[j].first,p2[j].second));
-                j++;
-            }else{
-                total.push_back(make_pair(p1[i].first,p1[i].second));
-                i++;
-
+    for(int i=1;i<4;i++){
+       if(tuGiac::d[0].get_x()==tuGiac::d[i].get_x()){
+            a =i+1;
+            b=i+2;
+            if(i==2){
+                a=1;
+                b=3;
             }
-           
-        }
+            if(i==3){
+                a =1;
+                b=2;
+            }
+            if(tuGiac::d[a].get_x()==tuGiac::d[b].get_x())dem=true;
+       }
     }
-    while(i<n1){
-        total.push_back(make_pair(p1[i].first,p1[i].second));
-        i++;
+    for(int i=1;i<4;i++){
+       if(tuGiac::d[0].get_Y()==tuGiac::d[i].get_Y()){
+            a =i+1;
+            b=i+2;
+            if(i==2){
+                a=1;
+                b=3;
+            }
+            if(i==3){
+                a =1;
+                b=2;
+            }
+            if(tuGiac::d[a].get_Y()==tuGiac::d[b].get_Y())dem=true;
+       }
     }
-    while(j<n2){
-        total.push_back(make_pair(p2[j].first,p2[j].second));
-        j++;
-    }
-    for(auto x:total){
-        cout<<x.first<<" "<<x.second<<endl;
-    }
-   
-}
 
+
+
+    if(tuGiac::Check()&& dem ){
+        return true;
+    }
+    return false;
+}
+void tuGiac::hienthi(){
+    cout<<"day la hinh tu giac"<<endl;
+}
+void hingthang::hienthi(){
+    cout<<"day la hinh thang"<<endl;
+
+}
 int main(){
-    int n1,n2;
-    
-    cin>>n1;
-    Dathuc t,p;
-   cout<<"nhap da thuc 1:";
-    t.nhap(t.a,n1);
-    cout<<"nhap da thuc 2:";
-    cin>>n2;
-    p.nhap(p.a,n2);
-    // t.sepxep(t.a,n);
-    // cout<<cout_valuse(t.a,n);
-    cong(t,n1,p,n2);
-
-    
+    tuGiac t;
+    hingthang a;
+    a.Nhap();
+    if(a.Check()){
+        a.hienthi();
+    }else if(a.tuGiac::Check()){
+        a.tuGiac::hienthi();
+    }else{
+        cout<<"khong phai tu giac";
+    }
     
     
 }
+
