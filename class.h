@@ -16,7 +16,7 @@ class ns{
                 cout<<"nhap sai thang vui long nhap lai";
                 return false;
             }
-            int day_max[11]={31,28,31,30,31,30,31,31,30,31,30};
+            int day_max[11]={31,28,31,30,31,30,31,31,30,31,30,31};
             for(int i=1;i<=12;i++){
                 if(months==2){
                     if(check_namnhuan()){
